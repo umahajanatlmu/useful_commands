@@ -15,9 +15,11 @@ installScriptLibs <- function(packages) {
     } else if (i %in% names(utils::available.packages()[,1])) {
       print(paste("installing:",i))
       utils::install.packages(i, character.only = TRUE)
+      library(i, character.only = TRUE)
     } else if (i %in% BiocManager::available(i)) {
       print(paste("installing:",i))
       BiocManager::install(i)
+      library(i, character.only = TRUE)
     } else
       print(paste("package", i, "not found in CRAN or Bioconductor"))
   }
@@ -64,50 +66,6 @@ banner <-function(txt, Char ="-") {
   
 }
 
-#' plot confusion matrix
-#'
-#' This function is for plotting confusion matriz
-#' @param cm confusion matrix
-#' @keywords install, load cran and bioconductor packages 
-#' @export
-#' @examples
-#' plotCM(cm)
-
-require(alluvial)
-
-plotCM <- function(cm){
-  cmdf <- as.data.frame(cm[["table"]])
-  cmdf[["color"]] <- ifelse(cmdf[[1]] == cmdf[[2]], "#377EB8", "#E41A1C")
-  
-  alluvial::alluvial(cmdf[,1:2]
-                     , freq = cmdf$Freq
-                     , col = cmdf[["color"]]
-                     , alpha = 0.5
-                     , hide  = cmdf$Freq == 0
-  )
-}
-
-
-# basic table theme  ------------------------------------------------------
-datTable <- function(Dat) {
-  if (!require(DT)) {
-    print("installing DT-------------")
-    install.packages("DT")
-    library("DT")
-  } else {
-    library("DT")
-  }
-  
-  table <- datatable(Dat, 
-                     class = "cell-border stripe", 
-                     rownames = TRUE, 
-                     filter = "top", 
-                     extensions = "Buttons", 
-                     options = list(dom = "Bfrtip", 
-                                    buttons = c("excel", "pdf", "print")))
-  return(table)
-  
-}
 
 # Function to plot Hotelling's T-squared ellipse
 # Adapted from https://github.com/tyrannomark/bldR/blob/master/R/L2017.R
