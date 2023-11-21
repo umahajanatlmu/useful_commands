@@ -22,7 +22,7 @@ TS_signature_score <- function(norm_matrix, organism = c("hsapiens", "mmusculus"
   TS_score <- pca_result %>%
     dplyr::select(PC1, PC2) %>%
     mutate(TS_score = PC2-PC1) %>%
-    dplyr(TS_score)
+    dplyr::select(TS_score)
   
   return(TS_score)
 
