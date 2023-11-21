@@ -8,19 +8,21 @@ TS_signature_score <- function(norm_matrix, organism = c("hsapiens", "mmusculus"
   if (organism == "mmusculus") {
       TS_signature_genes$TS_genes_mmusculus <- .convertHumanGeneList(TS_signature_genes$TS_genes)
       # Extract the expression of the 61 TS-related genes
-      TS_related_expression <- norm_matrix[rownames(norm_matrix) %in% TS_signature_genes$TS_genes_mmusculus, ]
+      TS_related_expression <- norm_matrix[rownames(norm_matrix) %in% TS_signature_genes$TS_genes_mmusculus,]
   } else
     # Extract the expression of the 61 TS-related genes
     TS_related_expression <- norm_matrix[rownames(norm_matrix) %in% TS_signature_genes$TS_genes, ]
   
   # Perform Principal Component Analysis (PCA) based on TCGA BLCA data
-  pca_result <- prcomp(TS_related_expression)
+  pca_result <- prcomp(t(TS_related_expression))
   
   # Calculate the TS score using PC1 and PC2
-  PC1 <- pca_result$x[, 1]
-  PC2 <- pca_result$x[, 2]
+  pca_result <- as.data.frame(pca_result$x)
   
-  TS_score <- sum(PC2 - PC1)
+  TS_score <- pca_result %>%
+    dplyr::select(PC1, PC2) %>%
+    mutate(TS_score = PC2-PC1) %>%
+    dplyr(TS_score)
   
   return(TS_score)
 
