@@ -159,7 +159,7 @@ get_TCGA_ICGC_data <- function(project=c("PAAD-US","PACA-AU", "PACA-CA"),
     R.utils::gunzip(.file)
     mut_data=read_tsv(gsub(".gz$","", .file))
     
-    column_to_retain <- c("icgc_donor_id","chromosome","chromosome_start","chromosome_end","mutation_type","mutated_from_allele","mutated_to_allele","platform","sequencing_strategy","gene_affected")
+    column_to_retain <- c("icgc_donor_id","chromosome","chromosome_start","chromosome_end","mutation_type","mutated_from_allele","mutated_to_allele","platform","sequencing_strategy","gene_affected", "total_read_count", "mutant_allele_read_count")
     
     mut_data = mut_data[,colnames(mut_data) %in% column_to_retain]
     
