@@ -168,7 +168,8 @@ get_TCGA_ICGC_data <- function(project=c("PAAD-US","PACA-AU", "PACA-CA"),
       dplyr::select(ensembl_gene_id, hgnc_symbol)
     
     mut_data <- mut_data %>%
-      left_join(annot1, by = c("gene_affected"="ensembl_gene_id"))
+      left_join(annot1, by = c("gene_affected"="ensembl_gene_id")) %>%
+      select_if(~any(!is.na(.)))
     
     ## save transcriptome data
     data[["somatic_mutation"]] <- mut_data
