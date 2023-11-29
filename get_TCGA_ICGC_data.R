@@ -48,12 +48,12 @@ get_TCGA_ICGC_data <- function(project=c("PAAD-US","PACA-AU", "PACA-CA"),
   specimen=read_tsv(gsub(".gz$","", .file))  %>%
     select_if(~any(!is.na(.)))
   
- common_cols <- interset(colnames(donor), colnames(sample))
+ common_cols <- intersect(colnames(donor), colnames(sample))
   
   clinical_data <- donor %>%
     full_join(sample, by = common_cols) 
 
-  common_cols <- interset(colnames(clinical_data), colnames(specimen))
+  common_cols <- intersect(colnames(clinical_data), colnames(specimen))
   
   clinical_data <- clinical_data %>%
     full_join(specimen, by = common_cols) 
