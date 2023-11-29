@@ -16,6 +16,8 @@ get_TCGA_ICGC_data <- function(project=c("PAAD-US","PACA-AU", "PACA-CA"),
   compiled_dataset <- c()
   # create download directory and set it
   .exdir = 'tmp'
+  # If it exists, delete it
+  unlink(.exdir, recursive = TRUE)
   dir.create(.exdir)
   
   url="https://dcc.icgc.org/api/v1/download?fn=/current/Projects/"
