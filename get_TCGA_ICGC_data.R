@@ -77,12 +77,12 @@ get_TCGA_ICGC_data <- function(project=c("PAAD-US","PACA-AU", "PACA-CA"),
     
     exp_seq_raw <- exp_seq %>%
       dplyr::select(-normalized_read_count) %>%
-      pivot_wider(names_from = "icgc_donor_id", values_from = "raw_read_count", values_fn = {median}) %>%
+      pivot_wider(names_from = "icgc_donor_id", values_from = "raw_read_count", values_fn = {ceiling(median)}) %>%
       column_to_rownames("gene_id")
     
     exp_seq_normalized <- exp_seq %>%
       dplyr::select(-raw_read_count) %>%
-      pivot_wider(names_from = "icgc_donor_id", values_from = "normalized_read_count", values_fn = {median}) %>%
+      pivot_wider(names_from = "icgc_donor_id", values_from = "normalized_read_count", values_fn = {ceiling(median)}) %>%
       column_to_rownames("gene_id")
     
     ## save transcriptome data
