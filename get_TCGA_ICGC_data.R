@@ -27,32 +27,40 @@ get_TCGA_ICGC_data <- function(project=c("PAAD-US","PACA-AU", "PACA-CA"),
   }
   
   if(isTRUE(clinical)) {
-    donor = paste0(url, project, "/", paste("donor", project, "tsv.gz", sep="."))
-    .file = file.path(.exdir, paste("donor", project, "tsv.gz", sep="."))
-    download.file(donor, .file)
-    R.utils::gunzip(.file)
-    donor=read_tsv(gsub(".gz$","", .file))
-    
-    sample = paste0(url, project, "/", paste("sample", project, "tsv.gz", sep="."))
-    .file = file.path(.exdir, paste("sample", project, "tsv.gz", sep="."))
-    download.file(sample, .file)
-    R.utils::gunzip(.file)
-    sample=read_tsv(gsub(".gz$","", .file))
-    
-    specimen = paste0(url, project, "/", paste("specimen", project, "tsv.gz", sep="."))
-    .file = file.path(.exdir, paste("specimen", project, "tsv.gz", sep="."))
-    download.file(specimen, .file)
-    R.utils::gunzip(.file)
-    specimen=read_tsv(gsub(".gz$","", .file))
-    
-    clinical_data <- merge.data.frame(donor, specimen, all = TRUE)
-    clinical_data <- merge.data.frame(clinical_data, sample, all = TRUE)
-    
-    ## save clinical data
-    data[["clinical"]] <- clinical_data
-    
-    compiled_dataset <- append(compiled_dataset, "clinical")
-  }
+  donor = paste0(url, project, "/", paste("donor", project, "tsv.gz", sep="."))
+  .file = file.path(.exdir, paste("donor", project, "tsv.gz", sep="."))
+  download.file(donor, .file)
+  R.utils::gunzip(.file)
+  donor=read_tsv(gsub(".gz$","", .file)) %>%
+    select_if(~any(!is.na(.)))
+  
+  sample = paste0(url, project, "/", paste("sample", project, "tsv.gz", sep="."))
+  .file = file.path(.exdir, paste("sample", project, "tsv.gz", sep="."))
+  download.file(sample, .file)
+  R.utils::gunzip(.file)
+  sample=read_tsv(gsub(".gz$","", .file)) %>%
+    select_if(~any(!is.na(.)))
+  
+  specimen = paste0(url, project, "/", paste("specimen", project, "tsv.gz", sep="."))
+  .file = file.path(.exdir, paste("specimen", project, "tsv.gz", sep="."))
+  download.file(specimen, .file)
+  R.utils::gunzip(.file)
+  specimen=read_tsv(gsub(".gz$","", .file))  %>%
+    select_if(~any(!is.na(.)))
+  
+  dfList <- list(donor, sample, specimen)
+  dfColList <- lapply(dfList,names)
+  commonCols <- Reduce(intersect,dfColList)
+  
+  clinical_data <- donor %>%
+    full_join(sample, by = commonCols) %>%
+    full_join(specimen, by=commonCols)
+  
+  ## save clinical data
+  data[["clinical"]] <- clinical_data
+  
+  compiled_dataset <- append(compiled_dataset, "clinical")
+}
   if(isTRUE(rna_seq)) {
     exp_seq = paste0(url, project, "/", paste("exp_seq", project, "tsv.gz", sep="."))
     .file = file.path(.exdir, paste("exp_seq", project, "tsv.gz", sep="."))
