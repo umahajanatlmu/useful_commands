@@ -33,7 +33,7 @@ scriptLibraries <-  c(
 )
 
 # scripts --------------------------------------------------------------
-devtools::source_url("https://raw.githubusercontent.com/umahajanatlmu/useful_commands/main/basicFunctions.R")
+devtools::source_url("https://raw.githubusercontent.com/umahajanatlmu/useful_commands/main/auxillary/basicFunctions.R")
 # load packages -------------------------------------------------------
 installScriptLibs(scriptLibraries)
 
