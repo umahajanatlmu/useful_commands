@@ -2,7 +2,7 @@ TS_signature_score <- function(norm_matrix, organism = c("hsapiens", "mmusculus"
   organism <- match.arg(organism, c("hsapiens", "mmusculus"))
   
   ## download EMT_signature
-  TS_signature_genes <- read.csv("https://raw.githubusercontent.com/umahajanatlmu/useful_commands/main/TS_score.csv", sep = ";", na ="")
+  TS_signature_genes <- read.csv("https://raw.githubusercontent.com/umahajanatlmu/useful_commands/main/transcriptome/TS_score.csv", sep = ";", na ="")
   
   ## convert to mouse
   if (organism == "mmusculus") {
