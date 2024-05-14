@@ -1,4 +1,4 @@
-#BioManager::install(c("sangerseqR","annotate")) 
+#BiocManager::install(c("sangerseqR","annotate")) 
 
 library(sangerseqR)
 
@@ -17,7 +17,7 @@ for(f in list_files) {
   #              showcalls = "both")
   SeqX<-makeBaseCalls(seq)
   ## blast
-  SeqXBlastDF<-blastSequences(paste(SeqX@primarySeq),as='data.frame', timeout=99)
+  SeqXBlastDF<-annotate::blastSequences(paste(SeqX@primarySeq),as='data.frame', timeout=99)
   
   print(SeqXBlastDF$Hit_def)
   
