@@ -80,3 +80,36 @@ gg_circle <- function(rx, ry, xc, yc, color = "black", fill = NA, ...) {
     color = color, fill = fill, ...
   )
 }
+
+### ggplot publication theme
+theme_publication <- function(base_size=14, base_family="helvetica") {
+  library(grid)
+  library(ggthemes)
+  (theme_foundation(base_size=base_size, base_family=base_family)
+    + theme(plot.title = element_text(size = rel(1.2)),
+            text = element_text(),
+            panel.background = element_rect(colour = NA),
+            plot.background =  element_rect(colour = NA),
+            panel.border = element_rect(colour="black", linewidth= rel(1)),
+            axis.title = element_text(size = rel(1)),
+            axis.title.y = element_text(angle=90,vjust =2),
+            axis.title.x = element_text(vjust = -0.2),
+            axis.text = element_text(), 
+            #axis.line = element_line(colour="black", size = rel(0.5)),
+            axis.ticks = element_line(colour="black", linewidth = rel(0.5)),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            legend.key = element_rect(colour = NA),
+            legend.position = "right",
+            #legend.direction = "horizontal",
+            legend.key.size= unit(rel(0.2), "cm"),
+            legend.margin = margin(rel(0.01),rel(0.01),rel(0.01),rel(0.01), "cm"),
+            legend.title = element_text(face="italic"),
+            plot.margin=unit(c(rel(10),rel(5),rel(5),rel(5)),"mm"),
+            strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+            strip.text = element_text(face="bold")
+    ))
+  
+}
+
+
