@@ -111,7 +111,7 @@ body {
 #TOC {
   background: linear-gradient(135deg, var(--bg-secondary) 0%, #FFFFFF 100%);
   border: 1px solid var(--border);
-  padding: var(--space-lg);
+  padding: var(--space-xl);
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 16px var(--shadow);
   margin: var(--space-xl) 0;
